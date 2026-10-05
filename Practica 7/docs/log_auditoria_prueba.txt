@@ -1,0 +1,6 @@
+2026-10-04 20:45:20 -03 [12345] app_web@food_store LOG:  connection authorized: user=app_web database=food_store
+2026-10-04 20:45:21 -03 [12345] app_web@food_store LOG:  statement: SELECT id, nombre, precio FROM producto LIMIT 5;
+2026-10-04 20:45:22 -03 [12345] app_web@food_store LOG:  statement: INSERT INTO categoria (nombre, descripcion) VALUES ('Postres', 'Línea de postres fríos para Food Store');
+2026-10-04 20:45:23 -03 [12345] app_web@food_store LOG:  statement: UPDATE producto SET precio = precio * 1.05 WHERE id = 10;
+2026-10-04 20:45:24 -03 [12345] app_web@food_store LOG:  statement: SELECT fn_autenticar('admin_falso', 'clave_incorrecta_123');
+2026-10-04 20:45:25 -03 [12345] app_web@food_store LOG:  disconnection: session time: 0:00:05.000 user=app_web database=food_store host=[local]
