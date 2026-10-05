@@ -1,0 +1,41 @@
+2026-10-05 16:51:34.628 -03 [17632] [unknown]@[unknown] ::1(63991) LOG:  connection received: host=::1 port=63991
+2026-10-05 16:51:34.647 -03 [17632] analista_bi@food_store ::1(63991) LOG:  connection authenticated: identity="analista_bi" method=scram-sha-256 (C:/Program Files/PostgreSQL/17/data/pg_hba.conf:117)
+2026-10-05 16:51:34.648 -03 [17632] analista_bi@food_store ::1(63991) LOG:  connection authorized: user=analista_bi database=food_store application_name=psql
+2026-10-05 16:51:34.652 -03 [17632] analista_bi@food_store ::1(63991) LOG:  statement: SELECT current_user, session_user;
+2026-10-05 16:51:34.653 -03 [17632] analista_bi@food_store ::1(63991) LOG:  statement: SELECT fn_autenticar('usuario_3@ejemplo.com', 'clave_anon_1');
+2026-10-05 16:51:34.661 -03 [17632] analista_bi@food_store ::1(63991) LOG:  fn_autenticar: intento fallido para usuario_3@ejemplo.com
+2026-10-05 16:51:34.661 -03 [17632] analista_bi@food_store ::1(63991) CONTEXT:  PL/pgSQL function fn_autenticar(character varying,character varying) line 14 at RAISE
+2026-10-05 16:51:34.661 -03 [17632] analista_bi@food_store ::1(63991) STATEMENT:  SELECT fn_autenticar('usuario_3@ejemplo.com', 'clave_anon_1');
+2026-10-05 16:51:34.662 -03 [17632] analista_bi@food_store ::1(63991) LOG:  statement: SELECT fn_autenticar('usuario_3@ejemplo.com', 'clave_anon_2');
+2026-10-05 16:51:34.662 -03 [17632] analista_bi@food_store ::1(63991) LOG:  fn_autenticar: intento fallido para usuario_3@ejemplo.com
+2026-10-05 16:51:34.662 -03 [17632] analista_bi@food_store ::1(63991) CONTEXT:  PL/pgSQL function fn_autenticar(character varying,character varying) line 14 at RAISE
+2026-10-05 16:51:34.662 -03 [17632] analista_bi@food_store ::1(63991) STATEMENT:  SELECT fn_autenticar('usuario_3@ejemplo.com', 'clave_anon_2');
+2026-10-05 16:51:34.662 -03 [17632] analista_bi@food_store ::1(63991) LOG:  statement: SELECT fn_autenticar('usuario_3@ejemplo.com', 'clave_anon_3');
+2026-10-05 16:51:34.662 -03 [17632] analista_bi@food_store ::1(63991) LOG:  fn_autenticar: intento fallido para usuario_3@ejemplo.com
+2026-10-05 16:51:34.662 -03 [17632] analista_bi@food_store ::1(63991) CONTEXT:  PL/pgSQL function fn_autenticar(character varying,character varying) line 14 at RAISE
+2026-10-05 16:51:34.662 -03 [17632] analista_bi@food_store ::1(63991) STATEMENT:  SELECT fn_autenticar('usuario_3@ejemplo.com', 'clave_anon_3');
+2026-10-05 16:51:34.663 -03 [17632] analista_bi@food_store ::1(63991) LOG:  statement: SELECT fn_autenticar('usuario_3@ejemplo.com', 'clave_anon_4');
+2026-10-05 16:51:34.663 -03 [17632] analista_bi@food_store ::1(63991) LOG:  fn_autenticar: intento fallido para usuario_3@ejemplo.com
+2026-10-05 16:51:34.663 -03 [17632] analista_bi@food_store ::1(63991) CONTEXT:  PL/pgSQL function fn_autenticar(character varying,character varying) line 14 at RAISE
+2026-10-05 16:51:34.663 -03 [17632] analista_bi@food_store ::1(63991) STATEMENT:  SELECT fn_autenticar('usuario_3@ejemplo.com', 'clave_anon_4');
+2026-10-05 16:51:34.663 -03 [17632] analista_bi@food_store ::1(63991) LOG:  statement: SELECT fn_autenticar('usuario_3@ejemplo.com', 'clave_anon_5');
+2026-10-05 16:51:34.663 -03 [17632] analista_bi@food_store ::1(63991) LOG:  fn_autenticar: intento fallido para usuario_3@ejemplo.com
+2026-10-05 16:51:34.663 -03 [17632] analista_bi@food_store ::1(63991) CONTEXT:  PL/pgSQL function fn_autenticar(character varying,character varying) line 14 at RAISE
+2026-10-05 16:51:34.663 -03 [17632] analista_bi@food_store ::1(63991) STATEMENT:  SELECT fn_autenticar('usuario_3@ejemplo.com', 'clave_anon_5');
+2026-10-05 16:51:34.664 -03 [17632] analista_bi@food_store ::1(63991) LOG:  statement: SELECT fn_autenticar('usuario_3@ejemplo.com', 'clave_anon_6');
+2026-10-05 16:51:34.664 -03 [17632] analista_bi@food_store ::1(63991) LOG:  statement: SELECT * FROM usuario;
+2026-10-05 16:51:34.665 -03 [17632] analista_bi@food_store ::1(63991) LOG:  statement: GRANT admin_datos TO analista_bi;
+2026-10-05 16:51:34.667 -03 [17632] analista_bi@food_store ::1(63991) ERROR:  permission denied to grant role "admin_datos"
+2026-10-05 16:51:34.667 -03 [17632] analista_bi@food_store ::1(63991) DETAIL:  Only roles with the ADMIN option on role "admin_datos" may grant this role.
+2026-10-05 16:51:34.667 -03 [17632] analista_bi@food_store ::1(63991) STATEMENT:  GRANT admin_datos TO analista_bi;
+2026-10-05 16:51:34.668 -03 [17632] analista_bi@food_store ::1(63991) LOG:  statement: GRANT admin_datos TO rol_reportes;
+2026-10-05 16:51:34.668 -03 [17632] analista_bi@food_store ::1(63991) ERROR:  permission denied to grant role "admin_datos"
+2026-10-05 16:51:34.668 -03 [17632] analista_bi@food_store ::1(63991) DETAIL:  Only roles with the ADMIN option on role "admin_datos" may grant this role.
+2026-10-05 16:51:34.668 -03 [17632] analista_bi@food_store ::1(63991) STATEMENT:  GRANT admin_datos TO rol_reportes;
+2026-10-05 16:51:34.668 -03 [17632] analista_bi@food_store ::1(63991) LOG:  statement: SET ROLE admin_datos;
+2026-10-05 16:51:34.669 -03 [17632] analista_bi@food_store ::1(63991) ERROR:  permission denied to set role "admin_datos"
+2026-10-05 16:51:34.669 -03 [17632] analista_bi@food_store ::1(63991) STATEMENT:  SET ROLE admin_datos;
+2026-10-05 16:51:34.669 -03 [17632] analista_bi@food_store ::1(63991) LOG:  statement: CREATE TABLE public.copia_usuario AS SELECT * FROM usuario;
+2026-10-05 16:51:34.671 -03 [17632] analista_bi@food_store ::1(63991) ERROR:  permission denied for schema public
+2026-10-05 16:51:34.671 -03 [17632] analista_bi@food_store ::1(63991) STATEMENT:  CREATE TABLE public.copia_usuario AS SELECT * FROM usuario;
+2026-10-05 16:51:34.746 -03 [17632] analista_bi@food_store ::1(63991) LOG:  disconnection: session time: 0:00:00.155 user=analista_bi database=food_store host=::1 port=63991
