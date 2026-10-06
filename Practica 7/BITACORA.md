@@ -1,5 +1,18 @@
 # Bitácora de uso de IA
+## Parte A — Diseño e implementación de roles y permisos de mínimo privilegio
 
+Prompt usado: Revisá este script de roles de PostgreSQL. Hay muchos GRANT SELECT individuales para el rol_reportes. ¿No hay una forma más rápida y corta de escribir esto para que tenga acceso a todas las tablas del esquema public y me ahorre líneas de código? (Los roles estaban ya cargados en el archivo design.md)
+
+Respuesta de la IA: Sugirió reemplazar los permisos granulares por GRANT SELECT ON ALL TABLES IN SCHEMA public TO rol_reportes;. La IA admitió que esto otorgaría acceso a la columna contrasena de la tabla usuario, pero dejó a criterio del equipo si implementarlo por comodidad.
+
+Validacion:
+Sugerencia rechazada. Aplicar ALL TABLES rompe el principio de mínimo privilegio al exponer datos sensibles (credenciales) a un rol analítico que no los necesita. Decidimos mantener las sentencias GRANT individuales hacia las tablas y vistas específicas, priorizando la seguridad y el aislamiento de datos por sobre el ahorro de líneas de código.
+
+## Parte B — Activación y prueba de la auditoría
+
+| Prompt enviado a la IA | Respuesta relevante recibida (resumen) | Validación o corrección humana aplicada |
+|---|---|---|
+| Qué parámetros mínimos activar en `postgresql.conf` para auditoría y que arme la secuencia de prueba para Food Store: 1 lectura, 1 inserción, 1 actualización y 1 login fallido con `fn_autenticar`. | Devolvió `log_connections = on`, `log_disconnections = on`, `log_statement = 'mod'` y el script de 4 sentencias que quedó en `sql/auditoria_test.sql`. Agregó qué mirar en el log (quién/cuándo/desde dónde/qué), el límite nativo (no registra filas afectadas ni before/after, eso sería `pgaudit`) y que el log es sensible (solo `postgres`/`root`, modo `600`, en el motor solo `pg_read_server_files` o rol auditor). | Se aplicó tal cual para config y script. Corrección: el fragmento `docs/log_auditoria_prueba.txt` (PID `12345`, sesión de exactamente 5 s) es una reconstrucción ilustrativa con formato `log_line_prefix`, no un fragmento copiado del servidor — por eso en la Parte C consta que la auditoría no estaba activa. También se verificó que con `'mod'` los `SELECT` no quedan (en Parte C se pasó a `'all'`) y que `fn_autenticar` no existía en el repo al momento de esta prueba. |
 ## Parte C — Simulacro de incidente
 
 | Prompt enviado a la IA | Respuesta relevante recibida (resumen) | Validación o corrección humana aplicada |
@@ -17,3 +30,9 @@
 |---|---|---|
 | Especificación precisa de la agregación "usuarios no eliminados por rol y mes de alta" sobre `usuario_anon`, más el pedido de la consulta equivalente sobre `usuario`. Solo se pasó la estructura de las tablas, ningún dato, y se aclaró "no ejecutes nada ni leas archivos" (prompt textual en `docs/informe_anonimizacion.md`, sección 2). OpenCode se abrió fuera del repositorio. | Devolvió solo las dos consultas, sin ejecutar nada (agente Build, Muse Spark 1.3). D.1 agrupa por `rol, mes_alta` con `TO_CHAR(mes_alta,'YYYY-MM')`. D.2 agrupa por `rol, DATE_TRUNC('month', created_at AT TIME ZONE 'America/Argentina/Buenos_Aires')` y lee solo `rol`, `created_at` y `eliminado`. | Se revisó que las dos filtren `eliminado = FALSE`, que usen la misma zona horaria y que D.2 no lea datos personales. Se analizó que en D.1 `mes_alta` se resuelve como columna `DATE` en el `GROUP BY` y como alias de texto en el `ORDER BY`, y que el orden igual es correcto. Se ejecutaron las dos: mismos grupos y mismos conteos (ADMIN 401 / USUARIO 19602), y `EXCEPT` en ambos sentidos dio 0 y 0. También se probaron en una base auxiliar con 8 meses distintos y usuarios eliminados, con el mismo resultado. **No requirieron corrección**: se usan tal cual. |
 | (Lección aplicada de la Parte C) | — | En la Parte C, OpenCode buscó contexto en el repositorio sin que se lo pidiéramos. Esta vez se lo corrió en un proyecto vacío, sin Git, y se le prohibió leer archivos. Así la respuesta sale solo del prompt y no de copiar `sql/parteD_consultas_equivalencia.sql`. |
+
+
+## Parte E — Punto 2
+**Caso elegido: reconstrucción del simulacro en la Parte C — OpenCode afirmó que las 6 llamadas a `fn_autenticar` fallaron.**
+
+Entre todos los registros, este es el más significativo porque es el único error con impacto en la conclusión de seguridad: la IA convirtió una cuenta ADMIN comprometida en un simple intento de fuerza bruta fallido. Dijo textualmente `6 llamadas seguidas a fn_autenticar(...), todas fallidas`, cuando el log anonimizado tiene solo 5 líneas `fn_autenticar: intento fallido` y la sexta llamada no registra ninguna. Se detectó contando líneas `intento fallido` contra líneas `statement: SELECT fn_autenticar(...)` y contrastándolo con lo realmente ejecutado en `sql/simulacro_incidente.sql
