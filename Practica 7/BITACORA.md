@@ -36,3 +36,7 @@ Sugerencia rechazada. Aplicar ALL TABLES rompe el principio de mínimo privilegi
 **Caso elegido: reconstrucción del simulacro en la Parte C — OpenCode afirmó que las 6 llamadas a `fn_autenticar` fallaron.**
 
 Entre todos los registros, este es el más significativo porque es el único error con impacto en la conclusión de seguridad: la IA convirtió una cuenta ADMIN comprometida en un simple intento de fuerza bruta fallido. Dijo textualmente `6 llamadas seguidas a fn_autenticar(...), todas fallidas`, cuando el log anonimizado tiene solo 5 líneas `fn_autenticar: intento fallido` y la sexta llamada no registra ninguna. Se detectó contando líneas `intento fallido` contra líneas `statement: SELECT fn_autenticar(...)` y contrastándolo con lo realmente ejecutado en `sql/simulacro_incidente.sql
+
+## Punto 3
+
+Todos los commit del TP fueron hechos en orden y en partes
