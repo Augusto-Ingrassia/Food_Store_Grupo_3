@@ -1,0 +1,40 @@
+﻿-- Prueba en servidor PostgreSQL 17 descartable (puerto 5499), base cargada con schema/objects/data.sql - 2026-10-20 20:56
+== 1. Configuracion de autovacuum ==
+              name               | setting | unit 
+---------------------------------+---------+------
+ autovacuum                      | on      | 
+ autovacuum_analyze_scale_factor | 0.1     | 
+ autovacuum_analyze_threshold    | 50      | 
+ autovacuum_naptime              | 60      | s
+ autovacuum_vacuum_scale_factor  | 0.2     | 
+ autovacuum_vacuum_threshold     | 50      | 
+ track_counts                    | on      | 
+(7 filas)
+
+== 2. Observacion previa: estado de cada tabla ==
+CREATE VIEW
+    relname     | n_live_tup | n_dead_tup | pct_muertas | n_mod_since_analyze | ultimo_vacuum | ultimo_analyze | necesita_mant 
+----------------+------------+------------+-------------+---------------------+---------------+----------------+---------------
+ producto       |          4 |          4 |       50.00 |                   8 |               |                | t
+ pedido         |          2 |          4 |       66.67 |                   6 |               |                | t
+ usuario        |          3 |          0 |        0.00 |                   3 |               |                | t
+ categoria      |          3 |          0 |        0.00 |                   3 |               |                | t
+ detalle_pedido |          4 |          0 |        0.00 |                   4 |               |                | t
+(5 filas)
+
+== 3. Accion: VACUUM (ANALYZE) solo sobre tablas marcadas ==
+VACUUM
+VACUUM
+VACUUM
+VACUUM
+VACUUM
+== 4. Verificacion posterior ==
+    relname     | n_live_tup | n_dead_tup | n_mod_since_analyze |          last_vacuum          |         last_analyze          
+----------------+------------+------------+---------------------+-------------------------------+-------------------------------
+ categoria      |          3 |          0 |                   0 | 2026-10-20 20:56:43.996832-03 | 2026-10-20 20:56:44.000564-03
+ detalle_pedido |          4 |          0 |                   0 | 2026-10-20 20:56:44.010436-03 | 2026-10-20 20:56:44.013499-03
+ pedido         |          2 |          0 |                   0 | 2026-10-20 20:56:43.986654-03 | 2026-10-20 20:56:43.989222-03
+ producto       |          4 |          0 |                   0 | 2026-10-20 20:56:43.974078-03 | 2026-10-20 20:56:43.978809-03
+ usuario        |          3 |          0 |                   0 | 2026-10-20 20:56:43.959031-03 | 2026-10-20 20:56:43.96507-03
+(5 filas)
+

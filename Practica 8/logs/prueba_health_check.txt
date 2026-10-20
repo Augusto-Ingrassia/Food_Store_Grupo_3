@@ -1,0 +1,39 @@
+﻿-- Prueba en servidor PostgreSQL 17 descartable (puerto 5499), base cargada con schema/objects/data.sql - 2026-10-20 20:56
+== 1. Tamano de la base ==
+    base    | tamano  
+------------+---------
+ food_store | 8302 kB
+(1 fila)
+
+== 2. Actividad de conexiones y transacciones ==
+ conexiones_activas | max_conexiones | xact_commit | xact_rollback | cache_hit_pct | deadlocks 
+--------------------+----------------+-------------+---------------+---------------+-----------
+                  1 |            100 |          38 |             0 |         99.88 |         0
+(1 fila)
+
+== 2b. Conexiones por estado ==
+ estado | cantidad 
+--------+----------
+ active |        1
+(1 fila)
+
+== 3. Estado de tablas (tuplas vivas/muertas, vacuum, analyze) ==
+     tabla      | n_live_tup | n_dead_tup | pct_muertas | n_mod_since_analyze | last_vacuum | last_autovacuum | last_analyze | last_autoanalyze | tamano_total 
+----------------+------------+------------+-------------+---------------------+-------------+-----------------+--------------+------------------+--------------
+ producto       |          4 |          4 |       50.00 |                   8 |             |                 |              |                  | 64 kB
+ pedido         |          2 |          4 |       66.67 |                   6 |             |                 |              |                  | 40 kB
+ usuario        |          3 |          0 |        0.00 |                   3 |             |                 |              |                  | 48 kB
+ categoria      |          3 |          0 |        0.00 |                   3 |             |                 |              |                  | 40 kB
+ detalle_pedido |          4 |          0 |        0.00 |                   4 |             |                 |              |                  | 40 kB
+(5 filas)
+
+== 4. Consultas activas (no idle) ==
+ pid | usename | state | wait_event_type | duracion | consulta 
+-----+---------+-------+-----------------+----------+----------
+(0 filas)
+
+== 5. Bloqueos: sesiones esperando a otra ==
+ pid | bloqueado_por | esperando | consulta 
+-----+---------------+-----------+----------
+(0 filas)
+
