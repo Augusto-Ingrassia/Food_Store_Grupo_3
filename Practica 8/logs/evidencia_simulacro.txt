@@ -1,0 +1,54 @@
+-- Evidencia del simulacro (Parte 4) - servidor PostgreSQL 18.6 descartable (puerto 5499) - 2026-10-22 02:10
+-- Respaldo usado: backups/foodstore_20261022_021004.dump
+
+##### A. validacion_restore.sql sobre foodstore_restore_test
+== 1. Filas por tabla (se comparan con las registradas antes del respaldo) ==
+     tabla      | filas 
+----------------+-------
+ categoria      |     3
+ usuario        |     3
+ producto       |     4
+ pedido         |     2
+ detalle_pedido |     4
+(5 rows)
+
+== 2. Restricciones logicas (deben dar 0) ==
+       control       | cantidad 
+---------------------+----------
+ productos_invalidos |        0
+(1 row)
+
+      control       | cantidad 
+--------------------+----------
+ detalles_invalidos |        0
+(1 row)
+
+##### B. Objetos restaurados (origen vs restaurada)
+    base    | tablas | vistas | vistas_mat | funciones_y_sp | triggers | indices 
+------------+--------+--------+------------+----------------+----------+---------
+ food_store |      5 |      4 |          0 |              4 |        3 |      11
+(1 row)
+
+          base          | tablas | vistas | vistas_mat | funciones_y_sp | triggers | indices 
+------------------------+--------+--------+------------+----------------+----------+---------
+ foodstore_restore_test |      5 |      4 |          0 |              4 |        3 |      11
+(1 row)
+
+##### C. Verificacion de AGENTS.md: v_pedidos_resumen en la base restaurada
+ id |  usuario   |   fecha    |  estado   | forma_pago |  total  
+----+------------+------------+-----------+------------+---------
+  1 | Juan Pérez | 2026-10-22 | PENDIENTE | EFECTIVO   | 4400.00
+  2 | Ana Garis  | 2026-10-22 | PENDIENTE | TARJETA    | 3900.00
+(2 rows)
+
+##### D. RPO: pedido creado en food_store DESPUES del respaldo (no esta en la restauracion)
+        base         | pedidos |    ultimo_pedido    
+---------------------+---------+---------------------
+ food_store (actual) |       3 | 2026-10-22 02:10:14
+(1 row)
+
+          base          | pedidos |    ultimo_pedido    
+------------------------+---------+---------------------
+ foodstore_restore_test |       2 | 2026-10-22 02:07:12
+(1 row)
+

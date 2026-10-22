@@ -21,3 +21,10 @@ El siguiente cronograma define las tareas que se automatizarán, su frecuencia d
 ## 3. Revisión de Código y Asistencia (OpenCode)
 * Esta especificación actuará como base para generar la primera versión de los scripts utilizando OpenCode. 
 * Cualquier código, comando o script autogenerado quedará estrictamente subordinado a revisión y prueba humana antes de ser considerado apto e integrado al procedimiento final.
+
+## 4. Objetivos de Recuperación del Laboratorio
+* **RPO previsto: ≤ 24 h.** Con un respaldo diario, en el peor caso se pierde lo registrado desde el último `.dump`.
+* **RTO previsto: ≤ 10 min.** Se mide desde la creación de `foodstore_restore_test` hasta que las validaciones terminan correctamente.
+* **Restauración válida:** las filas por tabla coinciden con las registradas antes del respaldo (`backups/*.conteo.txt`, generado por `backup_foodstore.ps1`) y los controles de productos y detalles inválidos de `validacion_restore.sql` devuelven 0.
+* **Automatización:** `backup_foodstore.ps1` y `restore_test.ps1` terminan con código 1 ante cualquier falla, para que el programador de tareas pueda detectarla. La contraseña se toma de `PGPASSWORD` o de `pgpass.conf`.
+* **Nombre de la base:** en el entorno del equipo la base principal se llama `food_store` (el enunciado la nombra `foodstore`). `backup_foodstore.ps1` permite cambiarla con `-Base`.

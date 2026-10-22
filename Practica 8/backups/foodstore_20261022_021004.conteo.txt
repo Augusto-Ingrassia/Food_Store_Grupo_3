@@ -1,0 +1,7 @@
+categoria|3
+usuario|3
+producto|4
+pedido|2
+detalle_pedido|4
+productos_invalidos|0
+detalles_invalidos|0

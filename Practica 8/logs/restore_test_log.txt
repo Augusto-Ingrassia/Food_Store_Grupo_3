@@ -1,0 +1,26 @@
+2026-10-22 02:10:14 - === Simulacro de restauracion en foodstore_restore_test (localhost:5499) ===
+2026-10-22 02:10:14 - Respaldo elegido: foodstore_20261022_021004.dump (22063 bytes, generado 2026-10-22 02:10:04)
+2026-10-22 02:10:15 - Restauracion terminada a los 0.88 s
+2026-10-22 02:10:16 - OK    categoria: 3 filas (antes del respaldo: 3)
+2026-10-22 02:10:16 - OK    usuario: 3 filas (antes del respaldo: 3)
+2026-10-22 02:10:16 - OK    producto: 4 filas (antes del respaldo: 4)
+2026-10-22 02:10:16 - OK    pedido: 2 filas (antes del respaldo: 2)
+2026-10-22 02:10:16 - OK    detalle_pedido: 4 filas (antes del respaldo: 4)
+2026-10-22 02:10:16 - OK    productos_invalidos: 0 (esperado 0)
+2026-10-22 02:10:16 - OK    detalles_invalidos: 0 (esperado 0)
+2026-10-22 02:10:16 - RTO observado: 0.99 s (createdb + pg_restore + validaciones)
+2026-10-22 02:10:16 - Antiguedad del respaldo al iniciar el simulacro (RPO observado): 0d 00h 00m 11s
+2026-10-22 02:10:16 - EXITO: foodstore_restore_test restaurada y validada
+2026-10-22 02:10:41 - === Simulacro de restauracion en foodstore_restore_test (localhost:5499) ===
+2026-10-22 02:10:41 - Respaldo elegido: foodstore_20261022_021004.dump (22063 bytes, generado 2026-10-22 02:10:04)
+2026-10-22 02:10:42 - Restauracion terminada a los 0.44 s
+2026-10-22 02:10:42 - OK    categoria: 3 filas (antes del respaldo: 3)
+2026-10-22 02:10:42 - OK    usuario: 3 filas (antes del respaldo: 3)
+2026-10-22 02:10:42 - OK    producto: 4 filas (antes del respaldo: 4)
+2026-10-22 02:10:42 - OK    pedido: 2 filas (antes del respaldo: 2)
+2026-10-22 02:10:42 - OK    detalle_pedido: 4 filas (antes del respaldo: 4)
+2026-10-22 02:10:42 - OK    productos_invalidos: 0 (esperado 0)
+2026-10-22 02:10:42 - OK    detalles_invalidos: 0 (esperado 0)
+2026-10-22 02:10:42 - RTO observado: 0.54 s (createdb + pg_restore + validaciones)
+2026-10-22 02:10:42 - Antiguedad del respaldo al iniciar el simulacro (RPO observado): 0d 00h 00m 38s
+2026-10-22 02:10:42 - EXITO: foodstore_restore_test restaurada y validada
