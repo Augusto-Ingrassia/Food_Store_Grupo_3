@@ -1,0 +1,91 @@
+a) Todos los pedidos (_id, estado)
+[
+  {
+    _id: 1,
+    estado: 'TERMINADO'
+  },
+  {
+    _id: 2,
+    estado: 'TERMINADO'
+  },
+  {
+    _id: 3,
+    estado: 'CANCELADO'
+  },
+  {
+    _id: 4,
+    estado: 'PENDIENTE'
+  },
+  {
+    _id: 5,
+    estado: 'CONFIRMADO'
+  }
+]
+b) Pedidos con estado TERMINADO
+[
+  {
+    _id: 1,
+    estado: 'TERMINADO'
+  },
+  {
+    _id: 2,
+    estado: 'TERMINADO'
+  }
+]
+   cantidad: 2
+c) Pedidos que contienen el producto_id 43068
+[
+  {
+    _id: 1
+  }
+]
+   cantidad: 1
+c') Pedidos que contienen el producto_id 1
+[
+  {
+    _id: 1
+  },
+  {
+    _id: 2
+  },
+  {
+    _id: 3
+  },
+  {
+    _id: 4
+  },
+  {
+    _id: 5
+  }
+]
+   cantidad: 5
+d) Pedidos con total > 15000 (campo total almacenado)
+[]
+d corregida) Pedidos con SUM(detalles.subtotal) > 15000
+[
+  {
+    _id: 1,
+    total: 0,
+    total_calculado: 16986.52
+  },
+  {
+    _id: 2,
+    total: 0,
+    total_calculado: 16986.52
+  },
+  {
+    _id: 3,
+    total: 0,
+    total_calculado: 16986.52
+  },
+  {
+    _id: 4,
+    total: 0,
+    total_calculado: 16986.52
+  },
+  {
+    _id: 5,
+    total: 0,
+    total_calculado: 16986.52
+  }
+]

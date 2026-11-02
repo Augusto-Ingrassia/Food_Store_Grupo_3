@@ -1,4 +1,6 @@
 // Consigna 2 / Paso 1.4: Migración de 5 pedidos reales desde PostgreSQL a MongoDB
+// Vacía la colección antes de insertar para poder re-ejecutar el script completo (Parte 2).
+db.pedidos.drop();
 db.pedidos.insertMany([
   {
     "_id": 1,
@@ -221,3 +223,45 @@ db.pedidos.insertMany([
     ]
   }
 ]);
+
+// =============================================================================
+// Parte 2 · Consultas y verificación (Consigna 4)
+// Ejecución: mongosh "mongodb://localhost:27017/food_store" --quiet --file consultas_mongodb.js
+// =============================================================================
+
+// a) Todos los pedidos con su identificador y estado
+print("a) Todos los pedidos (_id, estado)");
+printjson(db.pedidos.find({}, { _id: 1, estado: 1 }).sort({ _id: 1 }).toArray());
+
+// b) Pedidos en un estado existente en los datos migrados: TERMINADO
+print("b) Pedidos con estado TERMINADO");
+printjson(db.pedidos.find({ estado: "TERMINADO" }, { _id: 1, estado: 1 }).sort({ _id: 1 }).toArray());
+print("   cantidad: " + db.pedidos.countDocuments({ estado: "TERMINADO" }));
+
+// c) Pedidos que contienen un producto determinado dentro del arreglo de líneas
+//    (notación de punto sobre el arreglo embebido "detalles")
+print("c) Pedidos que contienen el producto_id 43068");
+printjson(db.pedidos.find({ "detalles.producto.producto_id": 43068 }, { _id: 1 }).sort({ _id: 1 }).toArray());
+print("   cantidad: " + db.pedidos.countDocuments({ "detalles.producto.producto_id": 43068 }));
+
+// c') Mismo criterio con el producto presente en todos los pedidos (producto_id 1)
+print("c') Pedidos que contienen el producto_id 1");
+printjson(db.pedidos.find({ "detalles.producto.producto_id": 1 }, { _id: 1 }).sort({ _id: 1 }).toArray());
+print("   cantidad: " + db.pedidos.countDocuments({ "detalles.producto.producto_id": 1 }));
+
+// d) Pedidos con total superior a 15000.
+//    Umbral: mismo criterio de "ventas de alto valor" usado por el equipo en la
+//    Práctica 5 (subtotal > 15000). Ninguna línea individual lo supera (la
+//    mayor es exactamente 15000), así que solo lo superan pedidos cuyo total
+//    combina varias líneas.
+print("d) Pedidos con total > 15000 (campo total almacenado)");
+printjson(db.pedidos.find({ total: { $gt: 15000 } }, { _id: 1, total: 1 }).sort({ _id: 1 }).toArray());
+
+// d corregida) El campo total migró en 0 y no coincide con la suma de las
+//    líneas (en PostgreSQL trg_total_ins lo mantiene = SUM(subtotal)).
+//    Se corrige la consulta: el total se calcula desde el arreglo embebido.
+print("d corregida) Pedidos con SUM(detalles.subtotal) > 15000");
+printjson(db.pedidos.find(
+  { $expr: { $gt: [{ $sum: "$detalles.subtotal" }, 15000] } },
+  { _id: 1, total: 1, total_calculado: { $round: [{ $sum: "$detalles.subtotal" }, 2] } }
+).sort({ _id: 1 }).toArray());
