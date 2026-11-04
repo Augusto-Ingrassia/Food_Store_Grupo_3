@@ -1,0 +1,5 @@
+id,nombre,precio_centavos,stock,disponible,eliminado,fecha_copia
+1,Fugazzeta,180000,8,t,f,2026-11-04 02:14:46
+2,Muzzarella,170000,14,t,f,2026-11-04 02:14:46
+3,Empanada de Carne,40000,24,t,f,2026-11-04 02:14:46
+4,Coca Cola 1.5L,80000,19,t,t,2026-11-04 02:14:46
