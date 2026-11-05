@@ -28,6 +28,9 @@ CREATE TABLE item_borrador (
     producto_id INTEGER NOT NULL,
     cantidad INTEGER NOT NULL CHECK(cantidad > 0),
     precio_centavos_visto INTEGER NOT NULL,
+    -- Un producto por borrador, como UNIQUE (pedido_id, producto_id) en PostgreSQL:
+    -- con dos renglones del mismo producto el semáforo comparaba cada uno contra el stock por separado
+    PRIMARY KEY(id_local, producto_id),
     FOREIGN KEY(id_local) REFERENCES pedido_borrador(id_local),
     FOREIGN KEY(producto_id) REFERENCES producto_cache(id)
 ) STRICT;

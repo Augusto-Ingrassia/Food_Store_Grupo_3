@@ -6,7 +6,7 @@ PostgreSQL 16+ database project for a food store (university assignment — UTN 
 
 ## Correct script execution order
 
-The README lists the wrong order. `data.sql` calls `sp_crear_pedido()` defined in `objects.sql` and will fail if run first.
+`data.sql` calls `sp_crear_pedido()` defined in `objects.sql` and will fail if run first (the README had this wrong until TP8; now fixed).
 
 ```
 1. schema.sql       — enums, tables, constraints, indexes

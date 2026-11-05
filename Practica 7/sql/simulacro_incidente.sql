@@ -136,3 +136,8 @@ SELECT pg_current_logfile() AS archivo_log;
 REVOKE EXECUTE ON FUNCTION fn_autenticar(VARCHAR, VARCHAR) FROM analista_bi;
 DROP OWNED BY analista_bi;
 DROP ROLE analista_bi;
+
+-- 2.4 Volver a la auditoría de la Parte B: con 'all' cada contraseña probada en
+--     fn_autenticar sigue quedando escrita en texto plano en el log del servidor
+ALTER SYSTEM SET log_statement = 'mod';
+SELECT pg_reload_conf();

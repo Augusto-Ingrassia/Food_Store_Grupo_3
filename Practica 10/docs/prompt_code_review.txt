@@ -1,0 +1,14 @@
+Sos revisor de código de bases de datos. Revisá TODOS los scripts de la cursada de este repositorio (proyecto Food Store, PostgreSQL 16+, MongoDB y SQLite). No modifiques ningún archivo: solo analizá y reportá.
+
+Scripts a revisar:
+- Raíz: schema.sql, objects.sql, data.sql, queries.sql, transacciones.sql, views.sql (Unidades 1-2)
+- Practica 3/seed_masivo.sql, Practica 4/query.sql, Practica 5/indices.sql, Practica 5/query.sql (Unidades 2-3: carga masiva, consultas e índices)
+- Practica 6/*.sql (Unidad 4: normalización/desnormalización)
+- Practica 7/roles.sql y Practica 7/sql/*.sql (Unidad 5: seguridad, roles, auditoría, anonimización)
+- Practica 8/*.sql y Practica 8/*.ps1 (Unidad 6: respaldo, restauración, mantenimiento)
+- Practica 9/*.js y Practica 9/*.sql (Unidad 7: MongoDB)
+- Practica 10/movil/*.sql y Practica 10/movil/*.ps1 (Unidad 8: SQLite en la tablet, instantánea y semáforo)
+
+Buscá errores reales: bugs de lógica, restricciones faltantes o contradictorias, problemas de integridad, falta de filtro de borrado lógico (eliminado = FALSE), riesgos de seguridad (contraseñas, permisos), problemas de concurrencia o idempotencia, scripts que no se pueden volver a correr, y errores de orden de ejecución.
+
+Devolvé una lista numerada de hallazgos. Para cada uno: archivo y línea aproximada, unidad, severidad (alta/media/baja), qué está mal, por qué importa y cómo corregirlo. Respondé en español.

@@ -97,7 +97,12 @@ BEGIN
                   WHERE id = p_usuario_id AND eliminado = FALSE) THEN
         RAISE EXCEPTION 'Usuario % inexistente o eliminado', p_usuario_id;
     END IF;
- 
+
+    -- Un pedido sin ítems quedaría con total 0 y sin detalles
+    IF COALESCE(jsonb_array_length(p_items), 0) = 0 THEN
+        RAISE EXCEPTION 'El pedido no tiene ítems';
+    END IF;
+
     INSERT INTO pedido(usuario_id, forma_pago)
     VALUES (p_usuario_id, p_forma_pago)
     RETURNING id INTO v_pedido_id;
@@ -125,8 +130,12 @@ BEGIN
         INSERT INTO detalle_pedido(pedido_id, producto_id, cantidad)
         VALUES (v_pedido_id, v_producto_id, v_cantidad);
  
-        -- Descuenta stock dentro de la misma transacción
-        UPDATE producto SET stock = stock - v_cantidad WHERE id = v_producto_id;
+        -- Descuenta stock dentro de la misma transacción. Si se vende la última unidad,
+        -- el producto pasa a no disponible (chk_producto_stock_si_disponible exige stock > 0)
+        UPDATE producto
+        SET stock      = stock - v_cantidad,
+            disponible = (stock - v_cantidad > 0)
+        WHERE id = v_producto_id;
     END LOOP;
     -- Si alguna inserción falla, toda la transacción se revierte (rollback).
 END;

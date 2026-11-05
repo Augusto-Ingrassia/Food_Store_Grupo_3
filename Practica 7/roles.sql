@@ -62,16 +62,18 @@ END $$;
 
 GRANT USAGE ON SCHEMA public TO rol_app_escritura;
 
--- Tablas transaccionales
-GRANT INSERT, UPDATE ON TABLE pedido          TO rol_app_escritura;
-GRANT INSERT, UPDATE ON TABLE detalle_pedido  TO rol_app_escritura;
+-- Tablas transaccionales: sin INSERT directo, para que nadie cree un pedido salteando
+-- la validación de stock (con INSERT directo quedaba un pedido vacío con total 0)
+REVOKE INSERT ON TABLE pedido, detalle_pedido FROM rol_app_escritura;
+GRANT UPDATE ON TABLE pedido          TO rol_app_escritura;
+GRANT UPDATE ON TABLE detalle_pedido  TO rol_app_escritura;
 
--- Secuencias de las identity columns (necesarias para INSERT)
-GRANT USAGE ON SEQUENCE pedido_id_seq         TO rol_app_escritura;
-GRANT USAGE ON SEQUENCE detalle_pedido_id_seq TO rol_app_escritura;
-
--- Procedimiento almacenado: único punto de entrada validado para crear pedidos
--- GRANT EXECUTE ON PROCEDURE sp_crear_pedido(BIGINT, forma_pago, JSONB) TO rol_app_escritura;
+-- Procedimiento almacenado: único punto de entrada validado para crear pedidos.
+-- SECURITY DEFINER: corre con los permisos del dueño, así app_web no necesita
+-- INSERT en pedido ni UPDATE en producto. search_path fijo, igual que fn_autenticar.
+ALTER PROCEDURE sp_crear_pedido(BIGINT, forma_pago, JSONB)
+    SECURITY DEFINER SET search_path = public, pg_temp;
+GRANT EXECUTE ON PROCEDURE sp_crear_pedido(BIGINT, forma_pago, JSONB) TO rol_app_escritura;
 
 
 -- -----------------------------------------------------------------------------
